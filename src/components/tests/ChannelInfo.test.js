@@ -6,9 +6,9 @@ import ChannelInfo from '../ChannelInfo';
 
 describe('ChannelInfo', () => {
   const fakeYoutube = {
-    channelImageUrl: jest.fn(),
+    channelImageURL: jest.fn(),
   };
-  afterEach(() => fakeYoutube.channelImageUrl.mockReset());
+  afterEach(() => fakeYoutube.channelImageURL.mockReset());
 
   it('renders corretly', async () => {
     const { asFragment } = renderChannelInfoWithCallback(() => 'url');
@@ -27,7 +27,7 @@ describe('ChannelInfo', () => {
     await waitFor(() => expect(screen.getByRole('img')).toBeInTheDocument());
   });
   function renderChannelInfoWithCallback(callback) {
-    fakeYoutube.channelImageUrl.mockImplementation(callback);
+    fakeYoutube.channelImageURL.mockImplementation(callback);
     return render(
       withAllContexts(
         withRouter(
