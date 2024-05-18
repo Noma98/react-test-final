@@ -11,36 +11,24 @@ describe('ChannelInfo', () => {
   afterEach(() => fakeYoutube.channelImageUrl.mockReset());
 
   it('renders corretly', async () => {
-    fakeYoutube.channelImageUrl.mockImplementation(() => 'url');
-    const { asFragment } = render(
-      withAllContexts(
-        withRouter(
-          <Route path='/' element={<ChannelInfo id='id' name='channel' />} />
-        ),
-        fakeYoutube
-      )
-    );
+    const { asFragment } = renderChannelInfoWithCallback(() => 'url');
     await waitFor(() => screen.getByRole('img'));
     expect(asFragment()).toMatchSnapshot();
   });
 
   it('renders without URL', () => {
-    fakeYoutube.channelImageUrl.mockImplementation(() => {
+    renderChannelInfoWithCallback(() => {
       throw new Error('error');
     });
-    render(
-      withAllContexts(
-        withRouter(
-          <Route path='/' element={<ChannelInfo id='id' name='channel' />} />
-        ),
-        fakeYoutube
-      )
-    );
     expect(screen.queryByRole('img')).toBeNull();
   });
   it('renders with URL', async () => {
-    fakeYoutube.channelImageUrl.mockImplementation(() => 'url');
-    render(
+    renderChannelInfoWithCallback(() => 'url');
+    await waitFor(() => expect(screen.getByRole('img')).toBeInTheDocument());
+  });
+  function renderChannelInfoWithCallback(callback) {
+    fakeYoutube.channelImageUrl.mockImplementation(callback);
+    return render(
       withAllContexts(
         withRouter(
           <Route path='/' element={<ChannelInfo id='id' name='channel' />} />
@@ -48,6 +36,5 @@ describe('ChannelInfo', () => {
         fakeYoutube
       )
     );
-    await waitFor(() => expect(screen.getByRole('img')).toBeInTheDocument());
-  });
+  }
 });
