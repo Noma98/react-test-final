@@ -24,7 +24,7 @@ describe('ChannelInfo', () => {
   });
   it('renders with URL', async () => {
     renderChannelInfoWithCallback(() => 'url');
-    await waitFor(() => expect(screen.getByRole('img')).toBeInTheDocument());
+    await screen.findByRole('img');
   });
   function renderChannelInfoWithCallback(callback) {
     fakeYoutube.channelImageURL.mockImplementation(callback);

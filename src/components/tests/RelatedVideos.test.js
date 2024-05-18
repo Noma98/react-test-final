@@ -19,7 +19,7 @@ describe('ReleatedVideos', () => {
   it('renders correctly', async () => {
     fakeYoutube.relatedVideos.mockImplementation(() => fakeVideos);
     const { asFragment } = renderRelatedVideos();
-    await waitForElementToBeRemoved(screen.getByText('Loading...'));
+    await waitForElementToBeRemoved(screen.queryByText('Loading...'));
 
     expect(asFragment()).toMatchSnapshot();
   });
